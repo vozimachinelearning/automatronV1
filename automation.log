@@ -3,3 +3,52 @@
 2025-08-03 02:41:37,850 - INFO - Starting desktop playback
 2025-08-03 02:41:43,385 - INFO - Performed drag_drop from (725, 29) to (999, 9)
 2025-08-03 02:41:43,385 - INFO - Playback completed
+2025-08-03 20:43:31,470 - INFO - Sequence contains 27 actions
+2025-08-03 20:43:31,471 - INFO - Loaded sequence for playback: C:/Users/rodri/Desktop/universalautomatron/sequences/1.json
+2025-08-03 20:43:31,471 - INFO - Starting desktop playback
+2025-08-03 20:43:36,308 - INFO - Clicked at (731, 743)
+2025-08-03 20:43:39,287 - INFO - Clicked at (226, 18)
+2025-08-03 20:43:42,631 - INFO - Clicked at (228, 18)
+2025-08-03 20:43:45,787 - INFO - Clicked at (228, 18)
+2025-08-03 20:43:49,544 - INFO - Clicked at (268, 18)
+2025-08-03 20:43:52,819 - INFO - Clicked at (228, 20)
+2025-08-03 20:43:56,507 - INFO - Clicked at (748, 96)
+2025-08-03 20:43:58,168 - INFO - Typed text: hola
+2025-08-03 20:43:59,664 - INFO - Pressed special key: space
+2025-08-03 20:44:01,939 - INFO - Typed text: deepseek
+2025-08-03 20:44:05,319 - INFO - Clicked at (1172, 666)
+2025-08-03 20:44:08,413 - INFO - Clicked at (267, 16)
+2025-08-03 20:44:11,142 - INFO - Typed text: google.com
+2025-08-03 20:44:12,232 - INFO - Pressed special key: enter
+2025-08-03 20:44:15,725 - INFO - Clicked at (499, 267)
+2025-08-03 20:44:17,740 - INFO - Typed text: gq
+2025-08-03 20:44:18,957 - INFO - Pressed special key: backspace
+2025-08-03 20:44:21,155 - INFO - Typed text: atos
+2025-08-03 20:44:22,673 - INFO - Pressed special key: space
+2025-08-03 20:44:24,785 - INFO - Typed text: negros
+2025-08-03 20:44:25,593 - INFO - Pressed special key: enter
+2025-08-03 20:44:28,539 - INFO - Clicked at (101, 326)
+2025-08-03 20:44:29,324 - INFO - Simulating scroll: total_delta=-2650, steps=52, duration=0.566s
+2025-08-03 20:44:36,031 - INFO - Simulating scroll: total_delta=-2000, steps=40, duration=0.372s
+2025-08-03 20:44:41,129 - INFO - Simulating scroll: total_delta=-2250, steps=44, duration=0.440s
+2025-08-03 20:44:49,068 - INFO - Clicked at (639, 535)
+2025-08-03 20:44:50,538 - INFO - Simulating scroll: total_delta=-3600, steps=48, duration=0.651s
+2025-08-03 20:44:56,025 - INFO - Playback completed
+2025-08-03 20:46:36,922 - INFO - Sequence contains 27 actions
+2025-08-03 20:46:36,922 - INFO - Loaded sequence for playback: C:/Users/rodri/Desktop/universalautomatron/sequences/1.json
+2025-08-03 20:46:36,923 - INFO - Starting desktop playback
+2025-08-03 20:46:42,257 - INFO - Clicked at (731, 743)
+2025-08-03 20:46:45,694 - INFO - Clicked at (226, 18)
+2025-08-03 20:46:48,975 - INFO - Clicked at (228, 18)
+2025-08-03 20:46:52,288 - INFO - Clicked at (228, 18)
+2025-08-04 10:30:14,561 - INFO - Sequence contains 7 actions
+2025-08-04 10:30:14,570 - INFO - Loaded sequence for playback: sequence.json
+2025-08-04 10:30:14,570 - INFO - Starting desktop playback
+2025-08-04 10:30:20,505 - INFO - Clicked at (597, 366)
+2025-08-04 10:30:21,687 - INFO - Simulating scroll: total_delta=-2300, steps=43, duration=0.502s
+2025-08-04 10:30:27,716 - INFO - Simulating scroll: total_delta=-2450, steps=43, duration=0.577s
+2025-08-04 10:30:33,770 - INFO - Simulating scroll: total_delta=-3150, steps=49, duration=0.604s
+2025-08-04 10:30:40,300 - INFO - Simulating scroll: total_delta=150, steps=3, duration=0.042s
+2025-08-04 10:30:41,329 - INFO - Simulating scroll: total_delta=250, steps=5, duration=0.061s
+2025-08-04 10:30:43,072 - INFO - Simulating scroll: total_delta=50, steps=1, duration=0.000s
+2025-08-04 10:30:43,173 - INFO - Playback completed
