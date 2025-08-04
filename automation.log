@@ -52,3 +52,11 @@
 2025-08-04 10:30:41,329 - INFO - Simulating scroll: total_delta=250, steps=5, duration=0.061s
 2025-08-04 10:30:43,072 - INFO - Simulating scroll: total_delta=50, steps=1, duration=0.000s
 2025-08-04 10:30:43,173 - INFO - Playback completed
+2025-08-04 10:35:32,064 - INFO - Sequence contains 4 actions
+2025-08-04 10:35:32,064 - INFO - Loaded sequence for playback: C:/Users/rodri/Desktop/universalautomatron/sequences/1.json
+2025-08-04 10:35:32,065 - INFO - Starting desktop playback
+2025-08-04 10:35:37,726 - INFO - Clicked at (703, 386)
+2025-08-04 10:35:38,962 - INFO - Simulating scroll: total_delta=4250, steps=67, duration=1.110s
+2025-08-04 10:35:50,748 - INFO - Performed drag_drop from (295, 146) to (586, 136)
+2025-08-04 10:35:51,335 - INFO - Simulating scroll: total_delta=1600, steps=26, duration=0.444s
+2025-08-04 10:35:54,395 - INFO - Playback completed

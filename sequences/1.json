@@ -1,8 +1,8 @@
 {
     "metadata": {
-        "created_at": "2025-08-03 20:43:07",
-        "total_actions": 27,
-        "duration_sec": 71.88,
+        "created_at": "2025-08-04 10:35:13",
+        "total_actions": 4,
+        "duration_sec": 8.94,
         "mode": "desktop_only",
         "sequence_name": "1"
     },
@@ -11,236 +11,58 @@
             "type": "click",
             "button": "left",
             "coordinates": {
-                "x": 731,
-                "y": 743
+                "x": 703,
+                "y": 386
             },
-            "timestamp": 1754264518.8380105
-        },
-        {
-            "type": "click",
-            "button": "left",
-            "coordinates": {
-                "x": 226,
-                "y": 18
-            },
-            "timestamp": 1754264523.4905226
-        },
-        {
-            "type": "click",
-            "button": "left",
-            "coordinates": {
-                "x": 228,
-                "y": 18
-            },
-            "timestamp": 1754264526.4347308
-        },
-        {
-            "type": "click",
-            "button": "left",
-            "coordinates": {
-                "x": 228,
-                "y": 18
-            },
-            "timestamp": 1754264527.512196
-        },
-        {
-            "type": "click",
-            "button": "left",
-            "coordinates": {
-                "x": 268,
-                "y": 18
-            },
-            "timestamp": 1754264528.9055083
-        },
-        {
-            "type": "click",
-            "button": "left",
-            "coordinates": {
-                "x": 228,
-                "y": 20
-            },
-            "timestamp": 1754264530.2152858
-        },
-        {
-            "type": "click",
-            "button": "left",
-            "coordinates": {
-                "x": 748,
-                "y": 96
-            },
-            "timestamp": 1754264532.9040768
-        },
-        {
-            "type": "type_string",
-            "text": "hola",
-            "timestamp": 1754264542.198017
-        },
-        {
-            "type": "keystroke",
-            "key": "space",
-            "timestamp": 1754264542.1982396
-        },
-        {
-            "type": "type_string",
-            "text": "deepseek",
-            "timestamp": 1754264545.7113435
-        },
-        {
-            "type": "click",
-            "button": "left",
-            "coordinates": {
-                "x": 1172,
-                "y": 666
-            },
-            "timestamp": 1754264545.7115054
-        },
-        {
-            "type": "click",
-            "button": "left",
-            "coordinates": {
-                "x": 267,
-                "y": 16
-            },
-            "timestamp": 1754264558.6353283
-        },
-        {
-            "type": "type_string",
-            "text": "google.com",
-            "timestamp": 1754264564.0720246
-        },
-        {
-            "type": "keystroke",
-            "key": "enter",
-            "timestamp": 1754264564.0722368
-        },
-        {
-            "type": "click",
-            "button": "left",
-            "coordinates": {
-                "x": 499,
-                "y": 267
-            },
-            "timestamp": 1754264566.6293125
-        },
-        {
-            "type": "type_string",
-            "text": "gq",
-            "timestamp": 1754264568.964095
-        },
-        {
-            "type": "keystroke",
-            "key": "backspace",
-            "timestamp": 1754264568.9643867
-        },
-        {
-            "type": "type_string",
-            "text": "atos",
-            "timestamp": 1754264570.9026358
-        },
-        {
-            "type": "keystroke",
-            "key": "space",
-            "timestamp": 1754264570.9028535
-        },
-        {
-            "type": "type_string",
-            "text": "negros",
-            "timestamp": 1754264572.4479258
-        },
-        {
-            "type": "keystroke",
-            "key": "enter",
-            "timestamp": 1754264572.4481564
-        },
-        {
-            "type": "click",
-            "button": "left",
-            "coordinates": {
-                "x": 101,
-                "y": 326
-            },
-            "timestamp": 1754264576.420457
+            "timestamp": 1754314505.9640684
         },
         {
             "type": "scroll",
-            "total_delta": -2650,
-            "direction": "down",
+            "total_delta": 4250,
+            "direction": "up",
             "start": {
-                "x": 101,
-                "y": 326
+                "x": 703,
+                "y": 386
             },
             "end": {
-                "x": 101,
-                "y": 326
+                "x": 703,
+                "y": 386
             },
             "start_position": 0,
-            "final_position": -2650,
-            "duration_sec": 0.5659744739532471,
-            "steps": 52,
-            "timestamp": 1754264577.8138988
+            "final_position": 4250,
+            "duration_sec": 1.109875202178955,
+            "steps": 67,
+            "timestamp": 1754314506.4768891
+        },
+        {
+            "type": "drag_drop",
+            "from": {
+                "x": 295,
+                "y": 146
+            },
+            "to": {
+                "x": 586,
+                "y": 136
+            },
+            "timestamp": 1754314511.7882292
         },
         {
             "type": "scroll",
-            "total_delta": -2000,
-            "direction": "down",
+            "total_delta": 1600,
+            "direction": "up",
             "start": {
-                "x": 101,
-                "y": 326
+                "x": 703,
+                "y": 386
             },
             "end": {
-                "x": 101,
-                "y": 326
+                "x": 703,
+                "y": 386
             },
-            "start_position": -2650,
-            "final_position": -4650,
-            "duration_sec": 0.37192535400390625,
-            "steps": 40,
-            "timestamp": 1754264578.80607
-        },
-        {
-            "type": "scroll",
-            "total_delta": -2250,
-            "direction": "down",
-            "start": {
-                "x": 101,
-                "y": 326
-            },
-            "end": {
-                "x": 101,
-                "y": 326
-            },
-            "start_position": -4650,
-            "final_position": -6900,
-            "duration_sec": 0.4401986598968506,
-            "steps": 44,
-            "timestamp": 1754264580.3217187
-        },
-        {
-            "type": "click",
-            "button": "left",
-            "coordinates": {
-                "x": 639,
-                "y": 535
-            },
-            "timestamp": 1754264584.3576484
-        },
-        {
-            "type": "scroll",
-            "total_delta": -3600,
-            "direction": "down",
-            "start": {
-                "x": 101,
-                "y": 326
-            },
-            "end": {
-                "x": 101,
-                "y": 326
-            },
-            "start_position": -6900,
-            "final_position": -10500,
-            "duration_sec": 0.6512942314147949,
-            "steps": 48,
-            "timestamp": 1754264581.1462066
+            "start_position": 4250,
+            "final_position": 5850,
+            "duration_sec": 0.4441225528717041,
+            "steps": 26,
+            "timestamp": 1754314508.2510333
         }
     ]
 }
