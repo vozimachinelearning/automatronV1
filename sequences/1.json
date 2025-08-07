@@ -1,8 +1,8 @@
 {
     "metadata": {
-        "created_at": "2025-08-04 10:35:13",
-        "total_actions": 4,
-        "duration_sec": 8.94,
+        "created_at": "2025-08-07 13:28:08",
+        "total_actions": 3,
+        "duration_sec": 16.37,
         "mode": "desktop_only",
         "sequence_name": "1"
     },
@@ -11,58 +11,31 @@
             "type": "click",
             "button": "left",
             "coordinates": {
-                "x": 703,
-                "y": 386
+                "x": 1066,
+                "y": 1042
             },
-            "timestamp": 1754314505.9640684
+            "screenshot": "sequences/screenshots\\click_1_1754584078.png",
+            "timestamp": 1754584078.7228167
         },
         {
-            "type": "scroll",
-            "total_delta": 4250,
-            "direction": "up",
-            "start": {
-                "x": 703,
-                "y": 386
+            "type": "click",
+            "button": "left",
+            "coordinates": {
+                "x": 1240,
+                "y": 21
             },
-            "end": {
-                "x": 703,
-                "y": 386
-            },
-            "start_position": 0,
-            "final_position": 4250,
-            "duration_sec": 1.109875202178955,
-            "steps": 67,
-            "timestamp": 1754314506.4768891
+            "screenshot": "sequences/screenshots\\click_2_1754584083.png",
+            "timestamp": 1754584083.5093706
         },
         {
-            "type": "drag_drop",
-            "from": {
-                "x": 295,
-                "y": 146
+            "type": "click",
+            "button": "left",
+            "coordinates": {
+                "x": 1745,
+                "y": 24
             },
-            "to": {
-                "x": 586,
-                "y": 136
-            },
-            "timestamp": 1754314511.7882292
-        },
-        {
-            "type": "scroll",
-            "total_delta": 1600,
-            "direction": "up",
-            "start": {
-                "x": 703,
-                "y": 386
-            },
-            "end": {
-                "x": 703,
-                "y": 386
-            },
-            "start_position": 4250,
-            "final_position": 5850,
-            "duration_sec": 0.4441225528717041,
-            "steps": 26,
-            "timestamp": 1754314508.2510333
+            "screenshot": "sequences/screenshots\\click_3_1754584087.png",
+            "timestamp": 1754584087.0661805
         }
     ]
 }

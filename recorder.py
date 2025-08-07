@@ -2,6 +2,8 @@
 from pynput import mouse, keyboard
 import time
 import json
+import pyautogui
+import os
 
 class ElementRecorder:
     def __init__(self):
@@ -18,6 +20,12 @@ class ElementRecorder:
         self.SCROLL_EPSILON = 5     # Ignore very small scroll movements (pixels)
         self.last_scroll_position = 0  # Cumulative scroll position in pixels
 
+        # Create screenshots directory
+        self.screenshots_dir = 'sequences/screenshots'
+        if not os.path.exists(self.screenshots_dir):
+            os.makedirs(self.screenshots_dir)
+        self.screenshot_count = 0
+
         print("Desktop recorder started. Drag, copy, paste now reliable.")
 
     def flush_current_string(self):
@@ -33,10 +41,29 @@ class ElementRecorder:
 
     def record_click(self, x, y, button='left'):
         self.flush_current_string()
+
+        screenshot_path = None
+        try:
+            region_size = 60  # 60x60 pixel box
+            left = max(0, x - region_size // 2)
+            top = max(0, y - region_size // 2)
+            
+            screenshot = pyautogui.screenshot(region=(left, top, region_size, region_size))
+            
+            self.screenshot_count += 1
+            screenshot_filename = f"click_{self.screenshot_count}_{int(time.time())}.png"
+            screenshot_path = os.path.join(self.screenshots_dir, screenshot_filename)
+            screenshot.save(screenshot_path)
+            print(f"📸 Screenshot saved to {screenshot_path}")
+
+        except Exception as e:
+            print(f"Error taking screenshot: {e}")
+
         action = {
             'type': 'click',
             'button': button,
             'coordinates': {'x': x, 'y': y},
+            'screenshot': screenshot_path,
             'timestamp': time.time()
         }
         self.recorded_actions.append(action)

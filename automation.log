@@ -60,3 +60,51 @@
 2025-08-04 10:35:50,748 - INFO - Performed drag_drop from (295, 146) to (586, 136)
 2025-08-04 10:35:51,335 - INFO - Simulating scroll: total_delta=1600, steps=26, duration=0.444s
 2025-08-04 10:35:54,395 - INFO - Playback completed
+2025-08-07 13:13:54,900 - INFO - Sequence contains 11 actions
+2025-08-07 13:13:54,919 - INFO - Loaded sequence for playback: C:/Users/rodri/Desktop/universalautomatron/sequences/1.json
+2025-08-07 13:13:54,919 - INFO - Starting desktop playback
+2025-08-07 13:14:00,283 - INFO - Clicked at (994, 397)
+2025-08-07 13:14:01,918 - INFO - Simulating scroll: total_delta=50, steps=1, duration=0.000s
+2025-08-07 13:14:02,617 - INFO - Simulating scroll: total_delta=-5400, steps=72, duration=1.050s
+2025-08-07 13:14:12,312 - INFO - Simulating scroll: total_delta=1100, steps=15, duration=0.338s
+2025-08-07 13:14:18,159 - INFO - Performed drag_drop from (1347, 256) to (1656, 386)
+2025-08-07 13:14:19,139 - INFO - Performed Ctrl+C operation
+2025-08-07 13:14:22,686 - INFO - Clicked at (1442, 809)
+2025-08-07 13:14:23,898 - INFO - Performed Ctrl+V operation
+2025-08-07 13:14:25,478 - INFO - Performed Ctrl+A operation
+2025-08-07 13:14:26,348 - INFO - Pressed special key: backspace
+2025-08-07 13:14:27,817 - INFO - Simulating scroll: total_delta=200, steps=4, duration=0.112s
+2025-08-07 13:14:28,428 - INFO - Playback completed
+2025-08-07 13:22:53,164 - INFO - Sequence contains 1 actions
+2025-08-07 13:22:53,165 - INFO - Loaded sequence for playback: C:/Users/rodri/Desktop/universalautomatron/sequences/1.json
+2025-08-07 13:22:53,165 - INFO - Starting desktop playback
+2025-08-07 13:22:56,763 - INFO - Attempting to find button via screenshot: sequences/screenshots\click_1_1754583753.png
+2025-08-07 13:22:58,834 - INFO - Screenshot found on screen at Point(x=np.int64(750), y=np.int64(205)). Overriding coordinates.
+2025-08-07 13:23:00,419 - INFO - Clicked at Point(x=np.int64(750), y=np.int64(205))
+2025-08-07 13:23:00,641 - INFO - Playback completed
+2025-08-07 13:28:43,349 - INFO - Sequence contains 3 actions
+2025-08-07 13:28:43,350 - INFO - Loaded sequence for playback: C:/Users/rodri/Desktop/universalautomatron/sequences/1.json
+2025-08-07 13:28:43,350 - INFO - Starting desktop playback
+2025-08-07 13:28:47,435 - INFO - Attempting to find button via screenshot: sequences/screenshots\click_1_1754584078.png
+2025-08-07 13:28:47,673 - INFO - Screenshot found on screen at Point(x=np.int64(1329), y=np.int64(1040)). Overriding coordinates.
+2025-08-07 13:28:49,229 - INFO - Clicked at Point(x=np.int64(1329), y=np.int64(1040))
+2025-08-07 13:28:51,534 - INFO - Attempting to find button via screenshot: sequences/screenshots\click_2_1754584083.png
+2025-08-07 13:28:51,732 - INFO - Screenshot found on screen at Point(x=np.int64(1531), y=np.int64(30)). Overriding coordinates.
+2025-08-07 13:28:53,247 - INFO - Clicked at Point(x=np.int64(1531), y=np.int64(30))
+2025-08-07 13:28:54,897 - INFO - Attempting to find button via screenshot: sequences/screenshots\click_3_1754584087.png
+2025-08-07 13:28:55,112 - INFO - Screenshot found on screen at Point(x=np.int64(1743), y=np.int64(30)). Overriding coordinates.
+2025-08-07 13:28:56,635 - INFO - Clicked at Point(x=np.int64(1743), y=np.int64(30))
+2025-08-07 13:28:56,852 - INFO - Playback completed
+2025-08-07 13:29:21,974 - INFO - Sequence contains 3 actions
+2025-08-07 13:29:21,974 - INFO - Loaded sequence for playback: C:/Users/rodri/Desktop/universalautomatron/sequences/1.json
+2025-08-07 13:29:21,975 - INFO - Starting desktop playback
+2025-08-07 13:29:26,071 - INFO - Attempting to find button via screenshot: sequences/screenshots\click_1_1754584078.png
+2025-08-07 13:29:26,323 - INFO - Screenshot found on screen at Point(x=np.int64(1197), y=np.int64(1040)). Overriding coordinates.
+2025-08-07 13:29:27,844 - INFO - Clicked at Point(x=np.int64(1197), y=np.int64(1040))
+2025-08-07 13:29:29,813 - INFO - Attempting to find button via screenshot: sequences/screenshots\click_2_1754584083.png
+2025-08-07 13:29:30,028 - INFO - Screenshot found on screen at Point(x=np.int64(367), y=np.int64(30)). Overriding coordinates.
+2025-08-07 13:29:31,561 - INFO - Clicked at Point(x=np.int64(367), y=np.int64(30))
+2025-08-07 13:29:33,013 - INFO - Attempting to find button via screenshot: sequences/screenshots\click_3_1754584087.png
+2025-08-07 13:29:33,202 - INFO - Screenshot found on screen at Point(x=np.int64(1743), y=np.int64(30)). Overriding coordinates.
+2025-08-07 13:29:34,717 - INFO - Clicked at Point(x=np.int64(1743), y=np.int64(30))
+2025-08-07 13:29:34,948 - INFO - Playback completed

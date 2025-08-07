@@ -148,14 +148,30 @@ class SeleniumBot:
         try:
             # --- Handle CLICK action ---
             if action['type'] == 'click':
-                self.random_delay(0.5, 1.0) # Add a small random delay before clicking.
+                self.random_delay(0.5, 1.0)  # Add a small random delay before clicking.
+                
                 abs_x = action['coordinates']['x']
                 abs_y = action['coordinates']['y']
-                self.human_mouse_move(abs_x, abs_y) # Move mouse to the target.
-                time.sleep(0.2) # Short pause before the click.
-                pyautogui.click() # Perform the click.
-                self.last_click_time = time.time() # Record the time of the click.
-                logger.info(f"Clicked at ({abs_x}, {abs_y})")
+                target_coords = (abs_x, abs_y)
+
+                # Try to find button by screenshot if available
+                if action.get('screenshot') and os.path.exists(action['screenshot']):
+                    try:
+                        logger.info(f"Attempting to find button via screenshot: {action['screenshot']}")
+                        location = pyautogui.locateCenterOnScreen(action['screenshot'], confidence=0.8)
+                        if location:
+                            target_coords = location
+                            logger.info(f"Screenshot found on screen at {location}. Overriding coordinates.")
+                        else:
+                            logger.warning("Screenshot not found on screen. Falling back to original coordinates.")
+                    except Exception as e:
+                        logger.error(f"Error during screenshot matching: {e}. Falling back to original coordinates.")
+
+                self.human_mouse_move(target_coords[0], target_coords[1])  # Move mouse to the target.
+                time.sleep(0.2)  # Short pause before the click.
+                pyautogui.click()  # Perform the click.
+                self.last_click_time = time.time()  # Record the time of the click.
+                logger.info(f"Clicked at {target_coords}")
 
             # --- Handle TYPE_STRING action ---
             elif action['type'] == 'type_string':
@@ -303,199 +319,6 @@ class SeleniumBot:
         """
         logger.info("Shutting down (no browser to close)")
 
-# --- Sequence Recorder Class ---
-
-# DEPRECATED: This class is marked as deprecated.
-class SequenceRecorder(SeleniumBot):
-    """
-    Records user mouse and keyboard actions and saves them to a JSON file.
-    It operates on the entire desktop, not just a specific browser window.
-    """
-    def __init__(self, output_file, initial_sequence=None):
-        """
-        Initializes the recorder.
-
-        Args:
-            output_file (str): The path to the JSON file where the recording will be saved.
-            initial_sequence (str or list, optional): A sequence or chain to play before recording starts.
-        """
-        super().__init__()
-        self.output_file = output_file
-        self.initial_sequence = initial_sequence
-        self.actions = []                     # A list to store recorded actions.
-        self.recording = True                 # A flag to control the recording loop.
-        self.desktop_mode = True              # Always in desktop mode for this version.
-        self.last_event_time = time.time()    # Timestamp of the last recorded event.
-        self.session_id = hashlib.md5(str(time.time()).encode()).hexdigest()[:8] # Unique ID for the session.
-        self.last_scroll_time = time.time()   # Timestamp of the last scroll event.
-        self.scroll_threshold = 0.1           # Minimum time between recorded scroll events to avoid flooding.
-        logger.info(f"Starting desktop recording session: {self.session_id}")
-
-    def play_initial_sequence(self):
-        """
-        Plays a pre-defined sequence of actions before starting the recording.
-        Useful for setting up an initial state (e.g., logging into an application).
-        """
-        if not self.initial_sequence:
-            return
-        try:
-            # If the initial sequence is a list, it's a chain of files.
-            if isinstance(self.initial_sequence, list):
-                chain_player = MultiSequencePlayer(chain_config=self.initial_sequence)
-                chain_player.play_chain()
-            # Otherwise, it's a single sequence file.
-            else:
-                player = SequencePlayer(sequence_file=self.initial_sequence)
-                player.play_sequence()
-            logger.info("Initial sequence playback completed")
-            time.sleep(1)
-        except Exception as e:
-            logger.error(f"Failed to play initial sequence: {str(e)}")
-
-    def start_recording(self):
-        """
-        Starts the keyboard and mouse listeners and begins the recording process.
-        The recording stops when the 'Esc' key is pressed.
-        """
-        logger.info("Starting desktop recording...")
-        if self.initial_sequence:
-            logger.info("Playing initial sequence...")
-            self.play_initial_sequence()
-        logger.info("Recording started! F8=toggle mode, Esc=stop")
-        
-        # Set up listeners from the pynput library.
-        mouse_listener = mouse.Listener(on_click=self.on_click, on_scroll=self.on_scroll)
-        keyboard_listener = keyboard.Listener(on_release=self.on_key_release)
-        mouse_listener.start()
-        keyboard_listener.start()
-        
-        try:
-            # Keep the main thread alive while the listeners run in the background.
-            while self.recording:
-                time.sleep(0.5)
-        except KeyboardInterrupt:
-            logger.warning("Recording interrupted by user")
-        finally:
-            # Stop the listeners and save the recorded actions to a file.
-            keyboard_listener.stop()
-            mouse_listener.stop()
-            self.save_recording()
-            logger.info(f"Recording saved to {self.output_file}")
-
-    def on_click(self, x, y, button, pressed):
-        """
-        Callback function that is executed whenever a mouse click occurs.
-
-        Args:
-            x (int): The x-coordinate of the click.
-            y (int): The y-coordinate of the click.
-            button: The mouse button that was clicked.
-            pressed (bool): True if the button was pressed, False if released.
-        """
-        # We only care about the moment the button is pressed.
-        if not pressed or not self.recording:
-            return
-        current_time = time.time()
-        time_since_last = current_time - self.last_event_time
-        self.last_event_time = current_time
-        
-        # Create a dictionary for the click action.
-        action = {
-            'type': 'click',
-            'coordinates': {'x': x, 'y': y},
-            'timestamp': current_time,
-            'delay_before': time_since_last # Time elapsed since the previous action.
-        }
-        self.actions.append(action)
-        logger.info(f"Recorded desktop click at ({x}, {y})")
-
-    def on_key_release(self, key):
-        """
-        Callback function that is executed whenever a keyboard key is released.
-
-        Args:
-            key: The key that was released.
-        """
-        if not self.recording:
-            return False # Stop the listener callback chain.
-            
-        current_time = time.time()
-        time_since_last = current_time - self.last_event_time
-        self.last_event_time = current_time
-
-        # Handle special hotkeys.
-        if key == keyboard.Key.f8: # F8 toggles mode (deprecated).
-            self.desktop_mode = not self.desktop_mode
-            mode = "DESKTOP" if self.desktop_mode else "BROWSER (N/A)"
-            logger.info(f"Switched to {mode} mode")
-            return
-        if key == keyboard.Key.esc: # Esc stops the recording.
-            self.recording = False
-            return False # Stop the listener.
-
-        key_data = {'timestamp': current_time, 'delay_before': time_since_last}
-        # Check if the key is a printable character.
-        if hasattr(key, 'char') and key.char:
-            key_data['type'] = 'type_string'
-            key_data['text'] = key.char
-            self.actions.append(key_data)
-            logger.info(f"Recorded key: {key.char}")
-        # Otherwise, it's a special key (like Enter, Shift, etc.).
-        else:
-            key_data['type'] = 'keystroke'
-            key_data['key'] = str(key)
-            self.actions.append(key_data)
-            logger.info(f"Recorded special key: {key}")
-
-    def on_scroll(self, x, y, dx, dy):
-        """
-        Callback function that is executed whenever the mouse wheel is scrolled.
-
-        Args:
-            x (int): The x-coordinate of the mouse pointer.
-            y (int): The y-coordinate of the mouse pointer.
-            dx (int): The horizontal scroll amount.
-            dy (int): The vertical scroll amount.
-        """
-        if not self.recording:
-            return
-        current_time = time.time()
-        # Throttle scroll events to avoid recording too many in a short time.
-        if current_time - self.last_scroll_time > self.scroll_threshold:
-            delay = current_time - self.last_event_time
-            action = {
-                'type': 'scroll',
-                'coordinates': {'x': x, 'y': y},
-                'delta': {'x': dx, 'y': dy},
-                'timestamp': current_time,
-                'delay_before': delay
-            }
-            self.actions.append(action)
-            logger.info(f"Recorded scroll at ({x}, {y}) with delta ({dx}, {dy})")
-            self.last_scroll_time = current_time
-            self.last_event_time = current_time
-
-    def save_recording(self):
-        """
-        Saves the recorded actions and metadata to a JSON file.
-        """
-        # Create metadata for the recording.
-        metadata = {
-            "session_id": self.session_id,
-            "created_at": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "actions_count": len(self.actions),
-            "duration": time.time() - self.last_event_time, # Approximate duration.
-            "config": {"mode": "desktop_only"}
-        }
-        # Combine metadata and actions into a single dictionary.
-        recording = {
-            "metadata": metadata,
-            "actions": self.actions
-        }
-        # Write the data to the output file in a human-readable format.
-        with open(self.output_file, 'w') as f:
-            json.dump(recording, f, indent=2)
-
 # --- Sequence Player Class ---
 
 class SequencePlayer(SeleniumBot):
@@ -614,23 +437,15 @@ if __name__ == "__main__":
     # Check for the minimum number of arguments.
     if len(sys.argv) < 2:
         print("Usage: python script.py <mode> <file>")
-        print("Modes: record, play, chain")
+        print("Modes: play, chain")
         sys.exit(1)
         
-    mode = sys.argv[1] # The mode of operation (e.g., 'record').
-    file = sys.argv[2] if len(sys.argv) > 2 else None # The associated file path.
+    mode = sys.argv[1]
+    file = sys.argv[2] if len(sys.argv) > 2 else None
     
     try:
-        # --- RECORD MODE ---
-        if mode == "record":
-            if not file:
-                print("Output file required for recording")
-                sys.exit(1)
-            recorder = SequenceRecorder(output_file=file)
-            recorder.start_recording()
-            
         # --- PLAY MODE ---
-        elif mode == "play":
+        if mode == "play":
             if not file:
                 print("Sequence file required for playback")
                 sys.exit(1)
