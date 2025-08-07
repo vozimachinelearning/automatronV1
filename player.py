@@ -18,6 +18,10 @@ import numpy as np                  # Fundamental package for scientific computi
 import os                           # Provides a way of using operating system dependent functionality.
 from datetime import datetime       # Used for timestamping, not actively used in this script's logic.
 
+# --- PyAutoGUI Configuration ---
+# Configure PyAutoGUI settings for batch execution
+pyautogui.FAILSAFE = False  # Disable fail-safe for batch execution
+pyautogui.PAUSE = 0.1       # Small pause between PyAutoGUI calls
 
 # --- Logging Configuration ---
 # Sets up how the script will log information. It will both save to a file ('automation.log')
@@ -154,18 +158,48 @@ class SeleniumBot:
                 abs_y = action['coordinates']['y']
                 target_coords = (abs_x, abs_y)
 
-                # Try to find button by screenshot if available
-                if action.get('screenshot') and os.path.exists(action['screenshot']):
-                    try:
-                        logger.info(f"Attempting to find button via screenshot: {action['screenshot']}")
-                        location = pyautogui.locateCenterOnScreen(action['screenshot'], confidence=0.8)
-                        if location:
-                            target_coords = location
-                            logger.info(f"Screenshot found on screen at {location}. Overriding coordinates.")
-                        else:
-                            logger.warning("Screenshot not found on screen. Falling back to original coordinates.")
-                    except Exception as e:
-                        logger.error(f"Error during screenshot matching: {e}. Falling back to original coordinates.")
+                # Prioritize screenshot-based clicking when available
+                screenshot_found = False
+                if action.get('screenshot'):
+                    screenshot_path = action['screenshot']
+                    
+                    # Try multiple path variations to find the screenshot
+                    possible_paths = [
+                        screenshot_path,
+                        os.path.join(os.getcwd(), screenshot_path),
+                        os.path.join(os.path.dirname(__file__), screenshot_path),
+                        screenshot_path.replace('/', os.sep).replace('\\', os.sep)
+                    ]
+                    
+                    found_path = None
+                    for path in possible_paths:
+                        if os.path.exists(path):
+                            found_path = path
+                            break
+                    
+                    if found_path:
+                        try:
+                            logger.info(f"[SCREENSHOT] Attempting to match: {os.path.basename(found_path)}")
+                            # Try multiple confidence levels for better matching
+                            for confidence in [0.9, 0.8, 0.7, 0.6, 0.5]:
+                                try:
+                                    location = pyautogui.locateCenterOnScreen(found_path, confidence=confidence)
+                                    if location:
+                                        target_coords = location
+                                        screenshot_found = True
+                                        logger.info(f"[SUCCESS] Screenshot matched at {location} with confidence {confidence}")
+                                        break
+                                except pyautogui.ImageNotFoundException:
+                                    continue
+                            
+                            if not screenshot_found:
+                                logger.warning(f"[FALLBACK] Screenshot not found on screen with any confidence level. Using coordinates.")
+                        except Exception as e:
+                            logger.error(f"[ERROR] Screenshot matching failed: {str(e)}. Using coordinates.")
+                    else:
+                        logger.warning(f"[MISSING] Screenshot file not found: {screenshot_path}. Checked multiple paths. Using coordinates.")
+                else:
+                    logger.info("[INFO] No screenshot available for this action, using coordinates.")
 
                 self.human_mouse_move(target_coords[0], target_coords[1])  # Move mouse to the target.
                 time.sleep(0.2)  # Short pause before the click.

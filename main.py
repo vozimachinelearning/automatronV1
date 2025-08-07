@@ -201,7 +201,126 @@ def update_chain_display():
     chain_display.delete("0.0", ctk.END)
     for idx, item in enumerate(chain_config):
         chain_display.insert(ctk.END, f"{idx+1}. File: {item['sequence_file']}, Loops: {item['loop_count']}, Delay: {item['extra_delay']} sec\n")
-    chain_display.configure(state="disabled")
+    # Keep the textbox editable for manual editing
+
+def parse_chain_from_text():
+    """Parse the chain configuration from the editable text box"""
+    global chain_config
+    try:
+        text_content = chain_display.get("0.0", ctk.END).strip()
+        if not text_content:
+            chain_config = []
+            return
+        
+        lines = text_content.split('\n')
+        new_chain_config = []
+        
+        for line in lines:
+            line = line.strip()
+            if not line or not line.startswith(tuple('123456789')):
+                continue
+                
+            # Parse format: "1. File: path, Loops: X, Delay: Y sec"
+            try:
+                # Extract file path
+                file_start = line.find('File: ') + 6
+                file_end = line.find(', Loops:')
+                sequence_file = line[file_start:file_end].strip()
+                
+                # Extract loops
+                loops_start = line.find('Loops: ') + 7
+                loops_end = line.find(', Delay:')
+                loop_count = int(line[loops_start:loops_end].strip())
+                
+                # Extract delay
+                delay_start = line.find('Delay: ') + 7
+                delay_end = line.find(' sec')
+                extra_delay = float(line[delay_start:delay_end].strip())
+                
+                new_chain_config.append({
+                    'sequence_file': sequence_file,
+                    'loop_count': loop_count,
+                    'extra_delay': extra_delay
+                })
+            except (ValueError, IndexError):
+                # Skip malformed lines
+                continue
+                
+        chain_config = new_chain_config
+    except Exception as e:
+        messagebox.showerror("Parse Error", f"Error parsing chain configuration: {str(e)}")
+
+def export_chain_to_batch():
+    """Export the current chain configuration to a batch script"""
+    if not chain_config:
+        messagebox.showwarning("Export Error", "No chain configuration to export")
+        return
+        
+    # Parse any manual edits first
+    parse_chain_from_text()
+    
+    if not chain_config:
+        messagebox.showwarning("Export Error", "No valid chain configuration found")
+        return
+    
+    file_path = filedialog.asksaveasfilename(
+        title="Save Chain as Batch Script",
+        defaultextension=".bat",
+        filetypes=[("Batch Files", "*.bat"), ("All Files", "*.*")]
+    )
+    
+    if not file_path:
+        return
+        
+    try:
+        with open(file_path, 'w') as f:
+            f.write("@echo off\n")
+            f.write("setlocal enabledelayedexpansion\n")
+            f.write("echo Starting automation chain...\n")
+            f.write("\n")
+            
+            # Get the directory where the main.py is located
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            player_path = os.path.join(script_dir, "player.py")
+            venv_path = os.path.join(script_dir, "venv", "Scripts", "activate.bat")
+            
+            # Activate virtual environment
+            f.write(f"echo Activating virtual environment...\n")
+            f.write(f"call \"{venv_path}\"\n")
+            f.write("if %errorlevel% neq 0 (\n")
+            f.write("    echo Failed to activate virtual environment\n")
+            f.write("    pause\n")
+            f.write("    exit /b 1\n")
+            f.write(")\n")
+            f.write("\n")
+
+            for idx, item in enumerate(chain_config, 1):
+                 f.write(f"echo Step {idx}: Running {os.path.basename(item['sequence_file'])} ({item['loop_count']} loops, {item['extra_delay']}s delay)...\n")
+                 
+                 # Handle multiple loops for each sequence
+                 f.write(f"for /L %%i in (1,1,{item['loop_count']}) do (\n")
+                 f.write(f"    echo   Loop %%i of {item['loop_count']}\n")
+                 f.write(f"    python \"{player_path}\" play \"{item['sequence_file']}\"\n")
+                 f.write("    if !errorlevel! neq 0 (\n")
+                 f.write(f"        echo Error in step {idx}, loop %%i, stopping chain\n")
+                 f.write("        pause\n")
+                 f.write("        exit /b 1\n")
+                 f.write("    )\n")
+                 
+                 # Add delay between loops (except for the last loop)
+                 f.write(f"    if %%i lss {item['loop_count']} (\n")
+                 f.write(f"        echo   Waiting {item['extra_delay']} seconds...\n")
+                 f.write(f"        timeout /t {int(item['extra_delay'])} /nobreak >nul\n")
+                 f.write("    )\n")
+                 f.write(")\n")
+                 f.write("\n")
+            
+            f.write("echo Chain completed successfully!\n")
+            f.write("pause\n")
+        
+        messagebox.showinfo("Export Success", f"Chain exported to: {file_path}")
+    except Exception as e:
+        messagebox.showerror("Export Error", f"Failed to export chain: {str(e)}")
 
 def add_sequence():
     file_path = filedialog.askopenfilename(title="Select Sequence File", filetypes=[("JSON Files", "*.json")])
@@ -256,6 +375,9 @@ def on_play():
 
 def on_chain_play():
     """Callback for start chain button"""
+    # Parse any manual edits first
+    parse_chain_from_text()
+    
     if not chain_config:
         messagebox.showwarning("Input Error", "Add sequences first.")
         return
@@ -332,9 +454,11 @@ ctk.CTkButton(chain_tools, text="+", command=add_sequence, fg_color=RED_DARK, ho
               width=25, height=24).pack(side="left", padx=5)
 ctk.CTkButton(chain_tools, text="-", command=remove_sequence, fg_color=RED_DARK, hover_color=RED_PRIMARY, 
               width=25, height=24).pack(side="left", padx=2)
+ctk.CTkButton(chain_tools, text="Export", command=export_chain_to_batch, fg_color=RED_DARK, hover_color=RED_PRIMARY, 
+              width=60, height=24).pack(side="right", padx=5)
 chain_display = ctk.CTkTextbox(chain_frame, width=390, height=60, fg_color=LIGHT_GREY, text_color=TEXT_COLOR)
 chain_display.pack(pady=(2,0), fill="both", expand=True)
-chain_display.configure(state="disabled")
+# Keep textbox editable for manual editing
 
 # Status bar with start button
 status_container = ctk.CTkFrame(app, fg_color=MEDIUM_GREY, height=28, corner_radius=3)
